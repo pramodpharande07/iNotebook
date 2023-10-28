@@ -3,7 +3,7 @@ const express = require('express')
 
 connectToMongo()
 const app = express()
-const port = 3000
+const port = 5000
 
 // if we want to use the requestAnimationFrame.body then we have to use a middlewhere mentained below
 app.use(express.json()) 
