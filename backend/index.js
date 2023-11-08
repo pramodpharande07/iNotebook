@@ -1,11 +1,13 @@
 const connectToMongo = require("./db")
 const express = require('express')
+var cors = require('cors')
 
 connectToMongo()
 const app = express()
 const port = 5000
 
 // if we want to use the requestAnimationFrame.body then we have to use a middlewhere mentained below
+app.use(cors())
 app.use(express.json()) 
 
 
