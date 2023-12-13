@@ -1,12 +1,12 @@
 
 import Notes from './Notes';
 
-const Home = () => {
-  
+const Home = (props) => {
+  const {showAlert} = props
   // fetching notes from backend 
   return (
     <div>
-       <Notes/> 
+       <Notes showAlert={showAlert}/> 
   </div>
   
   )

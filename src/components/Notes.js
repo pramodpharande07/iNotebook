@@ -1,69 +1,21 @@
-// import React, { useContext, useEffect, useRef } from 'react'
-// import noteContext from '../context/notes/noteContext'
-// import Noteitem from './Noteitem';
-// import AddNote from './AddNote';
-
-// const Notes = () => {
-//     const context = useContext(noteContext)
-//     const {notes, getNotes} = context;
-//     useEffect(() => {
-//       getNotes()
-//     }, []);
-
-//     const ref = useRef(null);
-
-//     const updateNote =((note)=> {
-//        ref.current.click();
-//     })
-//   return (
-//     <>
-//     <AddNote/>
-  
-// <button ref={ref} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-//   Launch demo modal
-// </button>
-
-
-// <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-//   <div className="modal-dialog">
-//     <div className="modal-content">
-//       <div className="modal-header">
-//         <h1 className="modal-title fs-5" id="exampleModalLabel"  >Modal title</h1>
-//         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-//       </div>
-//       <div className="modal-body">
-//         ...
-//       </div>
-//       <div className="modal-footer">
-//         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-//         <button type="button" className="btn btn-primary">Save changes</button>
-//       </div>
-//     </div>
-//   </div>
-// </div>
-
-//     <div className='row my-3'>
-//         {notes.map((note)=>{
-//             return <Noteitem key = {note._id} updateNote={updateNote} note = {note}/>
-//         })}
-      
-//     </div>
-//     </>
-//   )
-// }
-
-// export default Notes;
-
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import noteContext from "../context/notes/noteContext"
 import Noteitem from './Noteitem';
 import AddNote from './AddNote';
+import { useNavigate } from 'react-router-dom';
 
-const Notes = () => {
+const Notes = (props) => {
     const context = useContext(noteContext);
+    let navigate = useNavigate()
     const { notes, getNotes, editNote} = context;
+
     useEffect(() => {
+        if(localStorage.getItem('token')){
         getNotes()
+    }
+    else {
+        navigate("/login")
+    }
         // eslint-disable-next-line
     }, [])
     const ref = useRef(null)
@@ -80,6 +32,7 @@ const Notes = () => {
         editNote(note.id, note.etitle, note.edescription, note.etag)
         // e.preventDefault(); 
         refClose.current.click();
+        props.showAlert("updated successfully","success")
     }
 
     const onChange = (e)=>{
@@ -88,7 +41,7 @@ const Notes = () => {
 
     return (
         <>
-         <AddNote />
+         <AddNote showAlert={props.showAlert}/>
             <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Launch demo modal
             </button>
@@ -131,7 +84,7 @@ const Notes = () => {
                     {/* if any note is not there then it will be show above message  */}
                 </div>
                 {notes.map((note) => {
-                    return <Noteitem key={note._id} updateNote={updateNote} note={note} />
+                    return <Noteitem key={note._id} updateNote={updateNote} note={note} showAlert={props.showAlert} />
                 })}
             </div>
             </>

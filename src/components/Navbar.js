@@ -1,14 +1,21 @@
 import React, { useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
 
+    let navigate = useNavigate()
+    const handleLogout = ()=>{
+    localStorage.removeItem('token')
+    navigate("/login")
+}
   let location = useLocation();
   useEffect(()=>{
        console.log(location.pathname);
       // above line gives us a path 
   }, [location])
   //We use useLocation here for highlighting the about and home after clicking on it 
+
+
 
   return (
     <div>
@@ -27,10 +34,10 @@ const Navbar = () => {
           <Link className={`nav-link ${location.pathname === "/about" ?"active": ""}`} to="/about">About</Link>
         </li>
        </ul>      
-       <form className="d-flex" role="search">
+       {!localStorage.getItem('token')?<form className="d-flex" role="search">
        <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
        <Link className="btn btn-primary mx-1" to="/signup" role="button">Signup</Link>
-      </form>
+      </form>: <button onClick={handleLogout} className='btn btn primary'>Logout</button>}
     </div>
   </div>
 </nav>
