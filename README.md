@@ -1,3 +1,11 @@
+# Run (comment by me)
+use 'npm run both' command for running the current project
+
+# Latest change -
+  1.token is replaced by auth-token 
+  2.authtoken is replaced by authToken
+   
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
